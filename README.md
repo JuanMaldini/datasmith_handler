@@ -1,2 +1,4 @@
-# datasmith_handler
-a plugin to work with datasmith with a non destructive workflow.
+# datasmith\_handler
+
+A widget tool to work with multiple Datasmith files in a non-destructive workflow.
+
