@@ -8,7 +8,7 @@ Datasmith Handler is a tool developed as an Editor Utility Widget for Unreal Eng
 
 To initialize the tool, locate and run the main Widget within the Unreal Engine editor.
 
-![Run Widget](imágenes-ref/run%20widget.png)
+![Run Widget](images_ref/run%20widget.png)
 
 **Procedure:**
 1. In the **Content Browser**, navigate to the path: `Content > Tools > DatasmithPlacer`.
@@ -21,7 +21,7 @@ To initialize the tool, locate and run the main Widget within the Unreal Engine 
 
 The system operates based on **Data Assets**, which contain the specific configuration for each Datasmith file intended for import.
 
-![Data Asset](imágenes-ref/data%20asset.png)
+![Data Asset](images_ref/data%20asset.png)
 
 Inside the `DataAsset` folder, a base file named **Sample** is included. This file acts as the parent class or template. To configure a new import file, duplicate this `Sample` asset (or create a new instance inheriting from the class). The name assigned to the new Data Asset will subsequently be used by the Widget to identify the configuration.
 
@@ -34,7 +34,7 @@ Each Data Asset allows the definition of specific rules for importation and scen
 ### General Configuration and Object Deletion
 This section establishes source paths and scene cleanup rules.
 
-![Data Asset General Configuration](imágenes-ref/data%20asset%20open-do.png)
+![Data Asset General Configuration](images_ref/data%20asset%20open-do.png)
 
 * **Source:** Specifies the local directory path where the Datasmith files are located (e.g., `C:\datasmith\`).
 * **Filename:** Specifies the name of the `.udatasmith` file, including its extension.
@@ -44,7 +44,7 @@ This section establishes source paths and scene cleanup rules.
 ### Material Replacement
 The system allows for the automatic substitution of materials originating from the Datasmith file with native Unreal Engine materials.
 
-![Data Asset Material Replacement](imágenes-ref/data%20asset%20open-mr.png)
+![Data Asset Material Replacement](images_ref/data%20asset%20open-mr.png)
 
 * **Material Replacer:** List of substitution rules.
     * **Info:** Text field to describe the action or reference.
@@ -59,7 +59,7 @@ Additionally, the **Mesh Replacer** (for geometry substitution) and **Add Materi
 
 The main panel controls the entire workflow once the Data Assets have been configured.
 
-![General Layout](imágenes-ref/layout.png)
+![General Layout](images_ref/layout.png)
 
 ### Interface Description
 The interface is functionally divided in relation to the editor panels:
