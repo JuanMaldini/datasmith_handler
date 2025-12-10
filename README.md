@@ -1,85 +1,94 @@
 # Datasmith Handler
 
-Datasmith Handler is a tool developed as an Editor Utility Widget for Unreal Engine. Its primary objective is to facilitate the management of multiple Datasmith files through a non-destructive workflow, enabling the automation of tasks such as importation, Nanite conversion, material replacement, and geometry cleanup.
+Datasmith Handler is an Unreal Engine Editor Utility Widget built to accelerate large Datasmith scene ingests through a non-destructive, repeatable workflow. The widget places the entire import, clean-up, and replacement pipeline into a single side panel so you can import, wipe folders, remap materials, delete stray actors, and re-run everything in seconds whenever the source files change.
+
+> Built and tested on Unreal Engine **5.7** (tools branch). A downport to earlier versions is planned once the feature set stabilizes; suggestions and ideas are very welcome while the tool keeps evolving for fun and experimentation.
 
 ---
 
-## Tool Execution
+## User Interface and Operations
 
-To initialize the tool, locate and run the main Widget within the Unreal Engine editor.
+![Layout](images_ref/layout.png)
+
+### Interface Description
+
+1. **Left Panel (Toolbox):** Preset list sourced from your `DataAsset` files and the action buttons that operate on the active preset.
+2. **Center Panel (Details):** Live property sheet for the selected preset, perfect for quick tweaks before re-running the pipeline.
+3. **Right Panel (Outliner Preview):** Displays how the automatically spawned Blueprint organizes the imported hierarchy. Keep either a `CelestialVaultDaySequenceActor` or a `SunSky` actor handy for lighting control—the system will reference whichever one you place in the Outliner.
+
+### Operations
+
+- `Import datasmith`: Imports using the preset `Source` path and `Filename`.
+- `Convert to nanite`: Batch converts meshes brought in through the preset.
+- `Material replacer`: Runs name-based material swap rules.
+- `Mesh replacer`: Executes mesh substitution rules.
+- `Material add`: Adds extra materials where the Datasmith file lacks assignments.
+- `Set daytime`: Applies the stored Daytime configuration.
+- `Delete actors / objects / folder`: Cleans targeted actors or entire Datasmith folders.
+- `Open level / Save all`: Convenience actions for broader scene management.
+
+Presenting the interface first clarifies the effect of each preset before authoring configurations.
+
+---
+
+## Key Features
+
+- Centralized preset system powered by `DataAsset` blueprints
+- Automated Datasmith import, Nanite conversion, and Daytime setup
+- String-driven rules for deleting, replacing, or adding materials and meshes
+- Scene clean-up helpers for actors, folders, and levels
+- Live layout panel that keeps presets, details, and outliner context in sync
+
+---
+
+## Getting Started
+
+Run the main widget inside the Unreal Editor:
 
 ![Run Widget](images_ref/run%20widget.png)
 
-**Procedure:**
-1. In the **Content Browser**, navigate to the path: `Content > Tools > DatasmithPlacer`.
-2. Within this location, you will find the plugin folder structure (`Blueprint`, `DataAsset`, `DataAssetConfigure`, `Enum`, `Struct`, `UI`).
-3. Right-click on the Editor Utility Widget file and select the option **Run Editor Utility Widget**.
+1. In the Content Browser navigate to `Content > Tools > DatasmithPlacer`.
+2. The plugin structure contains `Blueprint`, `DataAsset`, `DataAssetConfigure`, `Enum`, `Struct`, and `UI` folders.
+3. Right-click the highlighted Editor Utility Widget and choose `Run Editor Utility Widget`.
 
 ---
 
-## Data Asset Management
+## Creating Data Assets
 
-The system operates based on **Data Assets**, which contain the specific configuration for each Datasmith file intended for import.
+Data Assets are the heart of the workflow—each one captures an import preset you can re-run at any time.
 
 ![Data Asset](images_ref/data%20asset.png)
 
-Inside the `DataAsset` folder, a base file named **DA_Empty** is included. This file acts as the parent class or template. To configure a new import file, duplicate this  asset (or create a new instance inheriting from the class). The name assigned to the new Filename variable in the Data Asset will subsequently be used by the Widget to identify the configuration.
+1. Open the `DataAsset` folder.
+2. Duplicate the `Sample` asset (or create a child of the same class) for every Datasmith file you need to manage.
+3. Rename the new asset; the widget reads this identifier when listing presets.
 
 ---
 
-## Parameter Configuration
+## Configuring a Data Asset
 
-Each Data Asset allows the definition of specific rules for importation and scene modification.
+Open any Data Asset to author import settings and rule sets.
 
-### General Configuration and Object Deletion
-This section establishes source paths and scene cleanup rules.
+### 1. General Settings & Delete Rules
 
-![Data Asset General Configuration](images_ref/data%20asset%20open-do.png)
+![Data Asset Open DO](images_ref/data%20asset%20open-do.png)
 
-* **Source:** Specifies the local directory path where the Datasmith files are located (e.g., `C:\datasmith\`).
-* **Filename:** Specifies the name of the `.udatasmith` file, including its extension.
-* **Daytime / Offset:** Numeric parameters to control the initial lighting setup.
-* **Delete Objects:** Defines a list of objects to be automatically removed after importation. The system searches the scene for actors whose names match the text string entered in the `Delete Object` field (e.g., `Box002`) and deletes them.
+- `Source`: Absolute directory that stores the `.udatasmith` file (example: `C:\datasmith\`).
+- `Filename`: Exact Datasmith filename (example: `sample.udatasmith`).
+- `Daytime / Offset`: Default lighting configuration that can be re-applied later.
+- `Delete Objects`: Array of name-based filters; any imported actor whose label matches the string (example: `Box002`) is removed automatically.
 
-### Material Replacement
-The system allows for the automatic substitution of materials originating from the Datasmith file with native Unreal Engine materials.
+### 2. Material Replacement
 
-![Data Asset Material Replacement](images_ref/data%20asset%20open-mr.png)
+![Data Asset Open MR](images_ref/data%20asset%20open-mr.png)
 
-* **Material Replacer:** List of substitution rules.
-    * **Info:** Text field to describe the action or reference.
-    * **Find Material:** Exact name of the original material to search for (String matching).
-    * **New Material:** Reference to the Unreal Material that will replace the original.
+- `Material Replacer`: Array-driven rules that map Datasmith material names to Unreal materials.
+  - `Info`: Optional note describing the intent of the rule.
+  - `Find Material`: Source material string to match during import.
+  - `New Material`: Unreal material asset used as the substitute.
 
-Additionally, the **Mesh Replacer** (for geometry substitution) and **Add Material** (to assign materials to objects without references) sections can be configured following the same text string search logic.
+> Mesh Replacer and Add Material arrays follow the same pattern, enabling geometry swaps or material injections where the source file lacks assignments.
 
 ---
 
-## User Interface and Functionalities
-
-The main panel controls the entire workflow once the Data Assets have been configured.
-
-![General Layout](images_ref/layout.png)
-
-### Interface Description
-The interface is functionally divided in relation to the editor panels:
-
-1.  **Tool Panel (Widget):** Contains execution buttons and the list of Presets.
-2.  **Details Panel:** Displays and allows editing of the properties of the currently selected Data Asset.
-3.  **Outliner:** Visualizes the generated scene hierarchy. The Blueprint organizes imported elements under a container actor.
-    * *Note:* The use of an individual `CelestialVaultDaySequenceActor` is recommended for lighting management within the scene.
-
-### Operation
-The Widget automatically scans the Data Asset folder and lists them in the **Presets** section. Upon selecting a preset (e.g., `sample` or `sample2`), the tool loads its configuration and enables the following functions:
-
-* **Import Datasmith:** Executes the file importation based on the `Source` and `Filename` paths.
-* **Convert to Nanite:** Processes imported static meshes to enable Nanite.
-* **Material Replacer:** Executes the material search and replacement algorithm defined in the Data Asset.
-* **Mesh Replacer:** Executes the substitution of static meshes.
-* **Material Add:** Assigns new materials according to established rules.
-* **Set Daytime:** Adjusts scene lighting based on Data Asset values.
-* **Cleanup Functions:**
-    * **Delete Actors:** Removes specific actors.
-    * **Delete Objects:** Executes the deletion rule by name configured in the Data Asset.
-    * **Delete Folder:** Removes generated content folders.
-* **Level Management:** Buttons to open levels (`Open Level`) and save all content (`Save All`).
+This loop ensures you can iterate on the source file, re-import, and re-run every rule with a single click while keeping the project consistent and non-destructive.
