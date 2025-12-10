@@ -2,7 +2,7 @@
 
 Datasmith Handler is an Unreal Engine Editor Utility Widget built to accelerate large Datasmith scene ingests through a non-destructive, repeatable workflow. The widget places the entire import, clean-up, and replacement pipeline into a single side panel so you can import, wipe folders, remap materials, delete stray actors, and re-run everything in seconds whenever the source files change.
 
-> Built and tested on Unreal Engine **5.7** (tools branch). A downport to earlier versions is planned once the feature set stabilizes; suggestions and ideas are very welcome while the tool keeps evolving for fun and experimentation.
+> Built and tested on Unreal Engine **5.7** (tools branch). A downport to earlier versions is planned once the feature set stabilizes.
 
 ---
 
