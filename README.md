@@ -23,7 +23,7 @@ The system operates based on **Data Assets**, which contain the specific configu
 
 ![Data Asset](images_ref/data%20asset.png)
 
-Inside the `DataAsset` folder, a base file named **Sample** is included. This file acts as the parent class or template. To configure a new import file, duplicate this `Sample` asset (or create a new instance inheriting from the class). The name assigned to the new Data Asset will subsequently be used by the Widget to identify the configuration.
+Inside the `DataAsset` folder, a base file named **DA_Empty** is included. This file acts as the parent class or template. To configure a new import file, duplicate this  asset (or create a new instance inheriting from the class). The name assigned to the new Filename variable in the Data Asset will subsequently be used by the Widget to identify the configuration.
 
 ---
 
